@@ -1,8 +1,35 @@
+# app/services/carreras_service.py
+
+"""
+Servicio que gestiona el catálogo de carreras universitarias disponibles.
+
+Este módulo proporciona funcionalidades para acceder y filtrar el catálogo
+de carreras de la Universidad Interamericana de Panamá (UIP), permitiendo
+búsquedas por nombre o por intereses del usuario.
+"""
+
 from app.models import Carrera
 
 class CarrerasService:
+    """
+    Servicio para gestionar el catálogo de carreras universitarias.
+    
+    Proporciona métodos para:
+    - Acceder a todas las carreras disponibles
+    - Buscar carreras por nombre específico
+    - Buscar carreras relacionadas con intereses del usuario
+    
+    Mantiene un catálogo interno de objetos Carrera y un mapeo de intereses
+    a palabras clave relacionadas para mejorar las búsquedas.
+    """
+    
     def __init__(self):
-        # Catálogo de carreras
+        """
+        Inicializa el servicio con un catálogo predefinido de carreras y un
+        mapeo de intereses a palabras clave.
+        """
+        # Catálogo de carreras - contiene información sobre todas las carreras disponibles
+        # Cada carrera incluye: nombre, facultad, descripción y URL
         self._carreras_catalogo = [
             Carrera(
                 nombre="Licenciatura en Psicología",
@@ -294,9 +321,9 @@ class CarrerasService:
             )
         ]
 
-        # Mapeo de intereses a palabras clave
+        # Mapeo de intereses a palabras clave relacionadas para mejorar las búsquedas
         self._mapeo_intereses = {
-            "cocinar": ["culinarias", "gastronomía", "chef", "alimentación", "comida", "restaurantes", "nutrición"],
+           "cocinar": ["culinarias", "gastronomía", "chef", "alimentación", "comida", "restaurantes", "nutrición"],
             "hotel": ["hotelera", "turismo", "hospitalidad", "recepción", "gestión hotelera"],
             "viajes": ["turismo", "hotelería", "viajar", "aerolínea", "cruceros"],
             "programación": ["sistemas", "software", "ingeniería", "algoritmos", "código", "desarrollo", "inteligencia artificial"],
@@ -316,7 +343,7 @@ class CarrerasService:
 
     def obtener_carreras(self):
         """
-        Retorna todas las carreras disponibles.
+        Retorna todas las carreras disponibles en el catálogo.
 
         Returns:
             list: Lista de todas las carreras
@@ -408,6 +435,8 @@ class CarrerasService:
         for kw in keywords:
             if kw not in keywords_sin_duplicados:
                 keywords_sin_duplicados.append(kw)
+
+        return keywords_sin_duplicados
 
         return keywords_sin_duplicados
 
