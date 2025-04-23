@@ -8,8 +8,6 @@ class Config:
     # Configuración de OpenAI API
     OPENAI_API_KEY = "OPENAI_API_KEY"  
 
-    # Configuración de la base de datos (si existe)
-    # DATABASE_URI = os.environ.get('DATABASE_URI') or 'sqlite:///app.db'
 
     # Configuración de archivos estáticos (si necesario)
     STATIC_FOLDER = 'static'
