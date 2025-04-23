@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <h1 class="mb-4">Encuentra tu carrera ideal en la UIP</h1>
+        <p class="lead">
+          Esta herramienta utiliza inteligencia artificial para recomendarte las carreras que
+          mejor se adaptan a tus intereses, habilidades y objetivos profesionales.
+        </p>
+        <p>
+          Nuestro sistema analiza tus respuestas y las compara con los perfiles
+          de las diferentes carreras disponibles en la Universidad Interamericana de Panamá
+          para ofrecerte recomendaciones personalizadas.
+        </p>
+        <p class="text-primary">
+          <strong>
+            <i class="fas fa-lightbulb me-1"></i>
+            Completa el formulario para recibir tus recomendaciones personalizadas.
+          </strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h2 class="h4 mb-0">
+          <i class="fas fa-clipboard-list me-2"></i>Cuestionario de orientación
+        </h2>
+      </div>
+      <div class="card-body">
+        <form action="{{ url_for('main.recomendar') }}" method="POST" id="formOrientacion">
+          <div class="mb-3">
+            <label for="intereses" class="form-label">¿Cuáles son tus principales intereses?</label>
+            <textarea class="form-control" id="intereses" name="intereses" rows="3"
+                      placeholder="Ej: Me interesa la tecnología, la programación, resolver problemas complejos..."
+                      required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="habilidades" class="form-label">¿Cuáles consideras que son tus principales habilidades?</label>
+            <textarea class="form-control" id="habilidades" name="habilidades" rows="3"
+                      placeholder="Ej: Soy bueno con los números, tengo facilidad para los idiomas, soy creativo..."
+                      required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="metas" class="form-label">¿Cuáles son tus metas profesionales a futuro?</label>
+            <textarea class="form-control" id="metas" name="metas" rows="3"
+                      placeholder="Ej: Me gustaría trabajar en una empresa internacional, crear mi propio negocio..."
+                      required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="materia_favorita" class="form-label">¿Cuál es tu materia o área de estudio favorita?</label>
+            <input type="text" class="form-control" id="materia_favorita" name="materia_favorita"
+                   placeholder="Ej: Matemáticas, Literatura, Ciencias Sociales..." required>
+          </div>
+
+          <div class="mb-3">
+            <label for="valores" class="form-label">¿Qué valores son importantes para ti en un trabajo?</label>
+            <textarea class="form-control" id="valores" name="valores" rows="3"
+                      placeholder="Ej: Trabajo en equipo, creatividad, impacto social, innovación..."
+                      required></textarea>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-search me-2"></i>Obtener recomendaciones
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="card bg-light">
+      <div class="card-body">
+        <h3 class="card-title">¿Por qué estudiar en la UIP?</h3>
+        <div class="row mt-4">
+          <div class="col-md-4 mb-3">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <i class="fas fa-award text-primary fa-2x"></i>
+              </div>
+              <div class="ms-3">
+                <h5>Excelencia académica</h5>
+                <p>Programas de estudio actualizados y adaptados a las demandas del mercado laboral.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <i class="fas fa-users text-primary fa-2x"></i>
+              </div>
+              <div class="ms-3">
+                <h5>Profesores experimentados</h5>
+                <p>Docentes con amplia experiencia profesional y académica en sus áreas de especialidad.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <i class="fas fa-globe text-primary fa-2x"></i>
+              </div>
+              <div class="ms-3">
+                <h5>Enfoque internacional</h5>
+                <p>Oportunidades de intercambio y una perspectiva global en todos nuestros programas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

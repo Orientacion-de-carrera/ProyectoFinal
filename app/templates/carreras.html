@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Carreras disponibles{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Carreras disponibles en la UIP</h1>
+<p class="lead mb-4">
+  Explora todas las carreras que ofrece la Universidad Interamericana de Panamá.
+  Cada carrera está diseñada para prepararte para el mundo profesional con un enfoque práctico y actualizado.
+</p>
+
+<div class="row mb-4">
+  <div class="col-md-6 offset-md-3">
+    <div class="input-group">
+      <span class="input-group-text"><i class="fas fa-search"></i></span>
+      <input type="text" id="buscadorCarreras" class="form-control" placeholder="Buscar carreras...">
+    </div>
+  </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="listaCarreras">
+  {% for carrera in carreras %}
+  <div class="col carrera-item">
+    <div class="card h-100 shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">{{ carrera.nombre }}</h5>
+      </div>
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">{{ carrera.facultad }}</h6>
+        <p class="card-text">{{ carrera.descripcion }}</p>
+      </div>
+      <div class="card-footer bg-white border-top-0">
+        <div class="d-grid">
+          <a href="{{ carrera.url }}" target="_blank" class="btn btn-outline-primary">
+            <i class="fas fa-external-link-alt me-1"></i>Ver detalles
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row mt-5">
+  <div class="col-12 text-center">
+    <a href="{{ url_for('main.index') }}" class="btn btn-lg btn-primary">
+      <i class="fas fa-arrow-left me-1"></i>Volver al test de orientación
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const buscador = document.getElementById('buscadorCarreras');
+    const carreras = document.querySelectorAll('.carrera-item');
+
+    buscador.addEventListener('input', function() {
+      const termino = this.value.toLowerCase();
+
+      carreras.forEach(function(carrera) {
+        const titulo = carrera.querySelector('.card-title').textContent.toLowerCase();
+        const facultad = carrera.querySelector('.card-subtitle').textContent.toLowerCase();
+        const descripcion = carrera.querySelector('.card-text').textContent.toLowerCase();
+
+        if (titulo.includes(termino) || facultad.includes(termino) || descripcion.includes(termino)) {
+          carrera.style.display = 'block';
+        } else {
+          carrera.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
