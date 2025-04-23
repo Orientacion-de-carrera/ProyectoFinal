@@ -1,4 +1,4 @@
-// Funcionalidad JavaScript para la aplicación
+// Funcionalidad del JavaScript para la aplicación
 
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar tooltips de Bootstrap
