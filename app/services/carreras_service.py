@@ -1,5 +1,3 @@
-# app/services/carreras_service.py
-
 """
 Servicio que gestiona el catálogo de carreras universitarias disponibles.
 
