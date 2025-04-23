@@ -1,4 +1,11 @@
-# app/services/openai_service.py
+"""
+Servicio para generar recomendaciones de carreras utilizando la API de OpenAI.
+
+Este módulo proporciona funcionalidades para analizar los datos e intereses del usuario
+y generar recomendaciones personalizadas de carreras universitarias utilizando
+inteligencia artificial mediante el modelo GPT-4 de OpenAI.
+"""
+
 import json
 import re
 from openai import OpenAI
@@ -6,15 +13,40 @@ from config import Config
 from app.models import Recomendacion
 
 class OpenAIService:
+    """
+    Servicio que utiliza la API de OpenAI para generar recomendaciones personalizadas de carreras.
+    
+    Proporciona métodos para analizar los datos del usuario y las carreras disponibles,
+    y generar recomendaciones de carreras que mejor se adapten al perfil del usuario.
+    Incluye un sistema de respaldo en caso de error en la API.
+    """
+    
     def __init__(self):
+        """
+        Inicializa el servicio configurando el cliente de OpenAI con la clave API.
+        """
         self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
 
     def generar_recomendaciones(self, datos_usuario, carreras_disponibles):
+        """
+        Genera recomendaciones personalizadas de carreras basadas en el perfil del usuario.
+        
+        Args:
+            datos_usuario (dict): Diccionario con los datos del usuario (intereses, habilidades, metas, etc.)
+            carreras_disponibles (list): Lista de objetos Carrera disponibles para recomendar
+            
+        Returns:
+            list: Lista de objetos Recomendacion con las carreras recomendadas
+            
+        Raises:
+            ValueError: Si los datos proporcionados son insuficientes para generar recomendaciones
+        """
         try:
             # Verificar que el usuario ha proporcionado suficientes datos
             if not datos_usuario.get('intereses') or not carreras_disponibles:
                 raise ValueError("Datos insuficientes para generar recomendaciones adecuadas")
 
+            # Preparar información de carreras para el prompt
             carreras_info = ""
             for carrera in carreras_disponibles:
                 carreras_info += f"Nombre: {carrera.nombre}\n"
@@ -28,6 +60,7 @@ class OpenAIService:
             nombres_exactos = [carrera.nombre for carrera in carreras_disponibles]
             nombres_exactos_lower = [nombre.lower() for nombre in nombres_exactos]
 
+            # Construir el prompt para OpenAI
             prompt = f"""
 Eres un consejero profesional experto en orientación vocacional para la Universidad Interamericana de Panamá (UIP).
 
@@ -63,7 +96,7 @@ Formato de respuesta (JSON):
   ]
 }}
 """
-
+            # Realizar la llamada a la API de OpenAI
             response = self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -84,6 +117,7 @@ Formato de respuesta (JSON):
             else:
                 recomendaciones_json = json.loads(resultado)
 
+            # Verificar formato de respuesta esperado
             if "recomendaciones" not in recomendaciones_json:
                 print("Formato inesperado de respuesta de OpenAI")
                 return self._generar_recomendaciones_fallback(carreras_disponibles, datos_usuario)
@@ -150,7 +184,19 @@ Formato de respuesta (JSON):
             return self._generar_recomendaciones_fallback(carreras_disponibles, datos_usuario)
 
     def _generar_recomendaciones_fallback(self, carreras_disponibles, datos_usuario):
-        """Método de respaldo para generar recomendaciones cuando el método principal falla"""
+        """
+        Método de respaldo para generar recomendaciones cuando el método principal falla.
+        
+        Implementa una lógica sencilla de coincidencia de palabras clave para ofrecer
+        recomendaciones básicas cuando la API de OpenAI no está disponible o falla.
+        
+        Args:
+            carreras_disponibles (list): Lista de objetos Carrera disponibles
+            datos_usuario (dict): Diccionario con los datos del usuario
+            
+        Returns:
+            list: Lista de objetos Recomendacion con las carreras recomendadas
+        """
         intereses = datos_usuario.get('intereses', '').lower()
         recomendaciones = []
 
@@ -189,4 +235,3 @@ Formato de respuesta (JSON):
             )
 
         return recomendaciones
-
