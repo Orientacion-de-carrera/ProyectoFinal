@@ -1,14 +1,13 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Config:
     # Configuración general de la aplicación
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'clave-secreta-por-defecto'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     DEBUG = True
 
     # Configuración de OpenAI API
-    OPENAI_API_KEY = "OPENAI_API_KEY"  
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')  # Ahora carga
 
-
-    # Configuración de archivos estáticos (si necesario)
-    STATIC_FOLDER = 'static'
-    TEMPLATE_FOLDER = 'templates'
